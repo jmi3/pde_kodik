@@ -1,12 +1,10 @@
 # PDE Framework — Modular Finite Difference Solver
 
-A clean, modular Python framework for solving partial differential equations (PDEs) using finite difference methods. Designed with extensibility, performance, and pedagogical clarity in mind.
-
 ## Features
 
 - 🏗️ **Layered Architecture**: Clean separation between numerical kernels, data structures, and solvers
 - ⚡ **JIT-Compiled Kernels**: Pure numerical kernels optimized with Numba for performance
-- 🎯 **Flexible API**: Extensible interfaces (IOperator, IEquation, IIntegrator, IBoundaryCondition)
+- 🎯 **Flexible API**: Extensible interfaces (IOperator, IEquation, IIntegrator, IBoundaryCondition, ...)
 - 📐 **Multiple Schemes**: Euler, RK4, Crank-Nicolson integrators; Dirichlet, Neumann, Periodic, Robin BCs
 - 🧪 **Well-Tested**: 78 unit tests covering all components
 - 📓 **Interactive Examples**: Jupyter notebooks demonstrating Heat and Schrödinger equations
@@ -360,7 +358,6 @@ pytest tests/test_import_package.py::test_import_package -v
 
 ## Documentation
 
-- **[Audit Report](AUDIT.md)** — Code quality and architecture review
 - **API Documentation** — Available in docstrings (use `help()` or IDE tooltips)
 - **Examples:**
   - `notebooks/01_grid_field_and_operators.ipynb` — Core concepts
@@ -407,9 +404,9 @@ MIT License — see LICENSE.txt for details.
 If you use this framework in academic work, please cite:
 
 ```bibtex
-@software{pde_framework_2026,
-  title={PDE Framework: Modular Finite Difference Solver},
-  author={Author Name},
+@software{pde_kodik_2026,
+  title={PDE Kodik: Modular Finite Difference Solver},
+  author={\v{C}erve\v{n}an J.},
   year={2026},
   url={<repository-url>}
 }
@@ -467,7 +464,6 @@ MIT License — see LICENSE file for details.
 
 ## References
 
-- Finite Difference Method Theory: [textbook/reference]
 - Numba JIT Compilation: https://numba.readthedocs.io/
 - NumPy API Reference: https://numpy.org/doc/stable/
 
@@ -496,15 +492,11 @@ pyright pde_framework/ tests/
 
 ### Virtual Environment
 
-The project assumes a Python virtual environment at `C:\venvs\pde_framework` on Windows.
+To create and activate a virtual environment:
 
-**To activate:**
 ```bash
-# Windows
-C:\venvs\pde_framework\Scripts\activate
-
-# Linux/macOS
-source /path/to/venv/bin/activate
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
 **Python Version Requirements:**
