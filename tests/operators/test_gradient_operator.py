@@ -7,7 +7,7 @@ from pde_framework.grid import Grid1D
 from pde_framework.operators.clients import GradientOperator
 
 
-def test_gradient_operator_returns_vector_field() -> None:
+def test_gradient_operator_returns_scalar_field_on_1d_grid() -> None:
     """GradientOperator returns VectorField with one 1D component."""
     grid = Grid1D(x_min=-1.0, x_max=1.0, n_points=9)
     field = ScalarField(grid)
@@ -16,10 +16,9 @@ def test_gradient_operator_returns_vector_field() -> None:
     operator = GradientOperator(scheme="central")
     result = operator.apply(field)
 
-    assert isinstance(result, VectorField)
+    assert isinstance(result, ScalarField)
     assert result.grid is field.grid
-    assert len(result.components) == 1
-    assert np.allclose(result.components[0][1:-1], 1.0, atol=1e-12)
+    assert np.allclose(result.data, 1.0, atol=1e-12)
 
 
 def test_gradient_operator_repr_contains_scheme() -> None:

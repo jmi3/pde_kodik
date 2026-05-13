@@ -2,20 +2,19 @@
 
 ## Features
 
-- 🏗️ **Layered Architecture**: Clean separation between numerical kernels, data structures, and solvers
-- ⚡ **JIT-Compiled Kernels**: Pure numerical kernels optimized with Numba for performance
-- 🎯 **Flexible API**: Extensible interfaces (IOperator, IEquation, IIntegrator, IBoundaryCondition, ...)
-- 📐 **Multiple Schemes**: Euler, RK4, Crank-Nicolson integrators; Dirichlet, Neumann, Periodic, Robin BCs
-- 🧪 **Well-Tested**: 78 unit tests covering all components
-- 📓 **Interactive Examples**: Jupyter notebooks demonstrating Heat and Schrödinger equations
-- 🔍 **Type Safe**: Full type hints and NumPy-style docstrings throughout
-- � **Active Development**: Mid-stage framework with expanding features, approaching feature-complete
+- **JIT-Compiled Kernels**: Pure numerical kernels optimized with Numba for performance
+- **Flexible API**: Extensible interfaces (IOperator, IEquation, IIntegrator, IBoundaryCondition, ...)
+- **Multiple Schemes**: Euler, RK4, Crank-Nicolson integrators; Dirichlet, Neumann, Periodic, Robin BCs
+- **Well-Tested**: 78 unit tests covering nearly all components
+- **Interactive Examples**: Jupyter notebooks demonstrating Heat and Schrödinger equations
+- **Type Safe**: Full type hints and NumPy-style docstrings throughout
+- **Active Development**: Mid-stage framework with expanding features, approaching feature-complete
 
 ## Project Structure
 
 ```
 pde_framework/
-├── calculation_core/       # Pure numerical kernels (Numba-JIT compiled)
+├── calculation_core/       # Numerical kernels
 │   ├── laplacian_kernels.py
 │   ├── gradient_kernels.py
 │   ├── divergence_kernels.py
@@ -23,20 +22,20 @@ pde_framework/
 │   ├── time_kernels.py
 │   └── matrix_kernels.py
 │
-├── grid/                   # Computational grid structures
-│   └── Grid1D.py          # 1D uniform grid with spacing and slicing
+├── grid/                   # Grid structures
+│   └── Grid1D.py          # 1D uniform grid
 │
-├── field/                  # Field data structures
-│   ├── ScalarField.py     # Scalar field on grid with operations
+├── field/                  # Fields
+│   ├── ScalarField.py     # Scalar field
 │   └── VectorField.py     # N-component vector field
 │
-├── boundary_conditions/    # Boundary condition abstractions
+├── boundary_conditions/    # Boundary conditions
 │   ├── IBoundaryCondition.py
 │   └── clients/
 │       ├── DirichletBC.py      # Fixed value boundaries
 │       ├── NeumannBC.py        # Fixed gradient boundaries
 │       ├── PeriodicBC.py       # Periodic boundaries
-│       └── RobinBC.py          # Mixed boundaries (α·u + β·du/dn = γ)
+│       └── RobinBC.py          # Mixed boundaries
 │
 ├── operators/              # Differential operators
 │   ├── IOperator.py
@@ -48,10 +47,10 @@ pde_framework/
 ├── equations/              # PDE systems
 │   ├── IEquation.py
 │   └── clients/
-│       ├── HeatEquation.py      # ∂u/∂t = α·∇²u
-│       └── SchrodingerEquation.py  # i·∂ψ/∂t = -ℏ²/(2m)·∇²ψ + V·ψ
+│       ├── HeatEquation.py      
+│       └── SchrodingerEquation.py  
 │
-├── integrators/            # Time stepping schemes
+├── integrators/            # Time integration schemes
 │   ├── IIntegrator.py
 │   └── clients/
 │       ├── ExplicitEulerIntegrator.py
@@ -59,8 +58,8 @@ pde_framework/
 │       ├── CrankNicolson1DIntegrator.py
 │       └── SpatialIntegrator.py
 │
-├── solvers/                # High-level solver orchestration
-│   └── Solver.py           # Unified time stepper with snapshot management
+├── solvers/                # Solvers orchestration
+│   └── Solver.py           # Time stepper with snapshot management
 │
 ├── utils/                  # Utilities and validators
 │   ├── validators.py       # Grid and field validation, CFL checks
@@ -72,12 +71,12 @@ pde_framework/
 
 ### Architecture Principles
 
-1. **Kernel Layer** (`calculation_core/`): Pure numerical kernels with no OOP dependencies
+1. **Kernel Layer** (`calculation_core/`): Numerical kernels
 2. **Data Layer** (`grid/`, `field/`): Immutable, passive data structures
-3. **Operator Layer** (`operators/`, `boundary_conditions/`): Abstract interfaces with concrete implementations
+3. **Operator Layer** (`operators/`, `boundary_conditions/`): Interfaces with concrete implementations
 4. **Equation Layer** (`equations/`): PDE systems combining operators and BCs
 5. **Integrator Layer** (`integrators/`): Temporal discretization schemes
-6. **Solver Layer** (`solvers/`): High-level orchestration
+6. **Solver Layer** (`solvers/`): Orchestration
 
 ## Quick Start
 
@@ -338,14 +337,14 @@ pytest tests/test_import_package.py::test_import_package -v
 
 ### Performance Considerations
 
-- All numerical kernels use `@njit(cache=True)` for first-call overhead
-- `ScalarField` uses complex dtype internally for wave equations
+- If possible, numerical kernels use `@njit(cache=True)`
+- `ScalarField` uses complex dtype internally to allow for quantum simulations without separate classes
 - `Grid1D` uses `@dataclass(frozen=True, slots=True)` for memory efficiency
 - Lazy operations where possible (no unnecessary copies)
 
 ## Requirements
 
-- **Python:** ≥3.10
+- **Python:** ≥3.11
 - **Core dependencies:**
   - numpy ≥1.20 — array operations
   - numba ≥0.55 — JIT compilation
@@ -353,8 +352,10 @@ pytest tests/test_import_package.py::test_import_package -v
   - jupyter ≥1.0 — interactive notebooks
 - **Development:**
   - pytest ≥6.0 — testing
-  - mypy, pyright — type checking
-  - ruff — linting
+  - pytest-cov ≥2.12 — coverage reporting
+  - pyright ≥1.1.300 — static type checking
+  - mypy ≥0.910 — type checking
+  - ruff ≥0.15.0 — formatting and linting
 
 ## Documentation
 
@@ -397,7 +398,7 @@ Contributions are welcome! Please ensure:
 
 ## License
 
-MIT License — see LICENSE.txt for details.
+MIT License — see [LICENSE](LICENSE) for details.
 
 ## Citation
 
@@ -412,12 +413,54 @@ If you use this framework in academic work, please cite:
 }
 ```
 
-## Support
+## Development
 
-For issues, questions, or suggestions:
-- Open an issue on GitHub
-- Check existing documentation and examples
-- Run tests to verify your environment
+### Setting Up the Development Environment
+
+```bash
+# Create and activate virtual environment
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Install in development mode with all dev dependencies
+pip install -e ".[dev]"
+```
+
+### Code Quality
+
+The project uses multiple tools for code quality and type checking:
+
+**Ruff** — Fast Python linter combining flake8, isort, and more:
+```bash
+# Format code
+ruff format pde_framework/ tests/
+
+# Check code
+ruff check pde_framework/ tests/
+
+# Fix issues automatically
+ruff check --fix pde_framework/ tests/
+```
+
+**Type Checking** — Pyright and Mypy:
+```bash
+# Run type checking
+pyright pde_framework/ tests/
+mypy pde_framework/ tests/
+```
+
+**Testing with Coverage**:
+```bash
+pytest --cov=pde_framework tests/
+```
+
+### Workflow Summary
+
+1. Make changes
+2. Format: `ruff format pde_framework/ tests/`
+3. Lint: `ruff check --fix pde_framework/ tests/`
+4. Type check: `pyright pde_framework/ tests/`
+5. Test: `pytest tests/`
 
 ## API Design Principles
 
@@ -427,93 +470,21 @@ For issues, questions, or suggestions:
 4. **Type safety**: Full type annotations for all public APIs
 5. **NumPy compatibility**: Native NumPy array integration throughout
 
-## Dependencies
-
-- **numpy**: Numerical computing
-- **numba**: JIT compilation for performance-critical kernels
-- **matplotlib**: Visualization
-- **jupyter**: Interactive notebooks
-- **pytest**: Testing framework
-
-## Development
-
-### Setting Up the Development Environment
-
-```bash
-pip install -e ".[dev]"
-```
-
-### Running Tests with Coverage
-
-```bash
-pytest --cov=pde_framework tests/
-```
-
-### Code Style
-
-The project uses Ruff for code formatting and linting.
-
-```bash
-ruff format pde_framework/ tests/
-ruff check pde_framework/ tests/ --fix
-```
-
-## License
-
-MIT License — see LICENSE file for details.
-
 ## References
 
 - Numba JIT Compilation: https://numba.readthedocs.io/
 - NumPy API Reference: https://numpy.org/doc/stable/
+- Ruff Documentation: https://docs.astral.sh/ruff/
+- Pyright Documentation: https://github.com/microsoft/pyright
+
+## Support
+
+For issues, questions, or suggestions:
+- Open an issue on GitHub
+- Check existing documentation and examples
+- Run tests to verify your environment: `pytest tests/ -v`
 
 ---
-### Code Quality Tools
 
-The project uses multiple tools for code quality and type checking:
-
-**Ruff** — Fast Python linter combining flake8, isort, and more:
-```bash
-# Check code
-ruff check pde_framework/ tests/
-
-# Fix issues automatically
-ruff check --fix pde_framework/ tests/
-
-# Auto-format code
-ruff format pde_framework/ tests/  
-```
-
-**Pyright** — Static type checker:
-```bash
-# Run type checking
-pyright pde_framework/ tests/
-```
-
-### Virtual Environment
-
-To create and activate a virtual environment:
-
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-**Python Version Requirements:**
-- Minimum: Python 3.11
-- Recommended: Python 3.11+
-
-### Running Tests with Coverage
-
-```bash
-pytest --cov=pde_framework tests/
-```
-
-### Code Style
-
-The project uses:
-- **Ruff**: Fast formatting, linting, and import sorting (line-length: 100)
-- **Mypy & Pyright**: Type checking with strict modes
-- **Pytest**: Comprehensive testing framework
-
-**Status:** Mid-stage development (Epics 1–8 complete, Epic 9 in progress)
+**Status:** Mid-stage development with core features implemented and tested. Actively adding new features and improving documentation. 
+Contribution suggestions welcome! Reach out mail at jancervenan@gmail.com, GitHub issues, or discussions.
