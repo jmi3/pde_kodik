@@ -4,14 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pde-framework"
-version = "0.5.0"
+version = "0.6.0"
 description = "A modular framework for solving partial differential equations using finite differences"
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
 
 authors = [
-    { name = "Author", email = "author@example.com" }
+    { name = "Jan Červeňan", email = "jancervenan@gmail.com" }
 ]
 
 dependencies = [
