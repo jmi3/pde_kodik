@@ -9,6 +9,7 @@ description = "A modular framework for solving partial differential equations us
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
+
 authors = [
     { name = "Author", email = "author@example.com" }
 ]
@@ -28,16 +29,15 @@ dev = [
     "pyright>=1.1.300",
     "mypy>=0.910",
 ]
+
 docs = [
     "sphinx>=4.0",
     "sphinx-rtd-theme>=1.0",
 ]
 
-[tool.setuptools]
-packages = ["pde_framework"]
-
-[tool.setuptools.package-dir]
-"" = "."
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pde_framework*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -67,5 +67,4 @@ pythonPlatform = "All"
 typeCheckingMode = "basic"
 reportUnusedImport = "none"
 reportUnusedVariable = "none"
-
 reportMissingTypeStubs = false
